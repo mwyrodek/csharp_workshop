@@ -8,7 +8,8 @@ namespace csharp_WorkShop23_26
         static void Main(string[] args)
         {
             //This is Your Starting point
-            // Build it and run it
+            // Build it  (Ctrl+Shift+B)
+            //and run it (F5)
 
             Console.WriteLine("This is Program To show you how to run programs");
             var isNumber = false;
