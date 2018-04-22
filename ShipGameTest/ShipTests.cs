@@ -1,4 +1,5 @@
-﻿
+﻿/*
+
 using NUnit.Framework; 
 using ShipsGame.Core;
 
@@ -14,3 +15,4 @@ namespace ShipGameTest
         }
     }
 }
+*/

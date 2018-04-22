@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿/*using NUnit.Framework;
 using ShipsGame.Core;
 
 namespace ShipGameTest
@@ -44,4 +44,4 @@ namespace ShipGameTest
             Assert.That(actualHeight, Is.EqualTo(expectedHeight));
         }
     }
-}
+}*/

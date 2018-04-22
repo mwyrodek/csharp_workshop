@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿/*
+using NUnit.Framework;
 using ShipsGame.Core;
 using System.Collections.Generic;
 using System;
@@ -48,3 +49,4 @@ namespace ShipGameTest
         }
     }
 }
+*/
