@@ -96,7 +96,7 @@ namespace ShipsGame.Core
 
         public static CellID CreateFirstCell()
         {
-            throw new System.NotImplementedException();
+            return new CellID("A1");
         }
 
         private Tuple<char, int> SplitIdToElements(string id)

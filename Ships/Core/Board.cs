@@ -1,7 +1,14 @@
-﻿namespace ShipsGame.Core
+﻿using System.Collections.Generic;
+
+namespace ShipsGame.Core
 {
-    public interface Board
+    public class Board
     {
-        
+        protected internal Dictionary<string, BoardCell> PlayerBoard;
+        public Board(Actor actor)
+        {
+            
+        }
+
     }
 }

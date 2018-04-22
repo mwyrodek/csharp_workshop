@@ -3,7 +3,8 @@
     public class Ship
     {
         public ShipTypes shipType { get; }
-        
+
+        public bool IsPlaced { get; }
 
         public Ship(ShipTypes shipType)
         {
@@ -23,5 +24,6 @@
 
             }
         }
+
     }
 }
