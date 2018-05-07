@@ -42,13 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action\ActionResult.cs" />
+    <Compile Include="Action\ActionStatus.cs" />
     <Compile Include="Core\Actor.cs" />
     <Compile Include="Core\Board.cs" />
     <Compile Include="Core\BoardCell.cs" />
     <Compile Include="Core\CellID.cs" />
+    <Compile Include="Core\Direction.cs" />
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Core\Ship.cs" />
     <Compile Include="Core\ShipTypes.cs" />
+    <Compile Include="GameLoop\GameLoop.cs" />
+    <Compile Include="GameLoop\GameState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
