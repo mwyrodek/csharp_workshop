@@ -34,7 +34,7 @@ namespace ShipsGame.Core
         {
             if (IsPlaced)
             {
-                return new ActionResult(ActionStatus.Failure, "Ship is already on board", false);
+                return new ActionResult(ActionStatus.Failure, "Ship is already on board\n", false);
             }
             
             //check if ship is in boarder;
@@ -42,7 +42,7 @@ namespace ShipsGame.Core
 
             if (planedShipPosition.Count != shipSize)
             {
-                var FailureMessage = $"Ship can't be placed on {string.Join(", ",planedShipPosition.Select(cell=>cell.Id).ToArray())}, * becase it is to long and goes beyond boarder";
+                var FailureMessage = $"Ship can't be placed on {string.Join(", ",planedShipPosition.Select(cell=>cell.Id).ToArray())}, * becase it is to long and goes beyond boarder \n";
                 return new ActionResult(ActionStatus.Failure, FailureMessage, true);
             }
 
@@ -59,7 +59,7 @@ namespace ShipsGame.Core
 
             if (takenCells.Count > 0)
             {                  
-                var FailureMessage = $"Ship can't be placed on {string.Join(", ",planedShipPosition.Select(cell=>cell.Id).ToArray())} becase {string.Join(" ,",takenCells.ToArray())} belongs to diffrent ship";
+                var FailureMessage = $"Ship can't be placed on {string.Join(", ",planedShipPosition.Select(cell=>cell.Id).ToArray())} becase {string.Join(" ,",takenCells.ToArray())} belongs to diffrent ship \n";
                 return new ActionResult(ActionStatus.Failure, FailureMessage, true);
             }
            
@@ -81,17 +81,17 @@ namespace ShipsGame.Core
         {
             if (ShipPosition.All(c => c.Id != target.Id))
             {
-                return new ActionResult(ActionStatus.Failure, "Illegal operation - misses shoudn't come here", false);
+                return new ActionResult(ActionStatus.Failure, "Illegal operation - misses shoudn't come here\n", false);
             }
             var messege = String.Empty;
             ShipPosition.First(c=>c.Id == target.Id).MarkAsFired();
             if (ShipPosition.All(c => c.WasFired() == true))
             {
-                messege = $"Enemy {shipType.ToString()} was Sunk!";
+                messege = $"Enemy {shipType.ToString()} was Sunk!\n";
             }
             else
             {
-                messege = $"Enemy {shipType.ToString()} was Hit!";
+                messege = $"Enemy {shipType.ToString()} was Hit!\n";
             }
             
             return  new ActionResult(ActionStatus.Succes, messege, false);

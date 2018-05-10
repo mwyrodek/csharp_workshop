@@ -1,9 +1,9 @@
 ﻿﻿using System;
-using System.Data;
-using System.Media;
-using System.Runtime.CompilerServices;
-using System.Text;
-using ShipsGame.Core;
+ using System.Linq;
+ using System.Text;
+ using Ships.Action;
+ using Ships.UI;
+ using ShipsGame.Core;
 
 namespace Ships.GameLoop
 {
@@ -53,13 +53,14 @@ namespace Ships.GameLoop
             {
                 return "You need to type something";
             }
-               
+
+            
             switch (gameState)
             {
                     case GameState.Setup:
                         return Setup(readLine);
                     case GameState.ShipPlacing:
-                        return ShipPlacing(readLine);
+                        return ShipPlacing(readLine.ToUpper());
                     case GameState.FinnishUp:
                     case GameState.InProgress:
                         break;
@@ -84,10 +85,10 @@ namespace Ships.GameLoop
                 gameState = GameState.ShipPlacing;
                 CurrentPlayer = Actor.PlayerOne;
                 var nextStepMessage = ShipPlacing(string.Empty);
-                return $"Player two name is {player2Name} \n ";
+                return $"Player two name is {player2Name} \n {nextStepMessage}";
             } 
             
-            throw new ArgumentException("You shound be here");
+            throw new ArgumentException("You shouldn't be here");
         }
 
         private string ShipPlacing(string command)
@@ -95,14 +96,72 @@ namespace Ships.GameLoop
             StringBuilder messege = new StringBuilder();
             if (!string.IsNullOrEmpty(command))
             {
-                throw new NotImplementedException();
+                if (!ValideteShipPlacementCommand(command))
+                {
+                    messege.Append($"\"{command}\" is not valid input\n");
+                }
+                else
+                {
+                    var shipsMessage = PlaceShips(command);
+                    messege.Append(shipsMessage);
+                }
             }
 
-            messege.Append($"Enter {GetCurrentPlayerName()} ship and place:");
+            messege.Append($"Enter {GetCurrentPlayerName()} Ship and its place:");
             messege.Append(ShipPlacementHint());
             return messege.ToString();
         }
 
+        private string PlaceShips(string command)
+        {
+            var board = GetCurrentPlayerBoard();
+            var actionResult = board.PlaceShip(InputTranslatorHelper.TranlateCommand(command));
+            if (!actionResult.AllowRepeat)
+            {
+                SetNextPlayerTurn();
+            }
+
+            return actionResult.Messege;
+
+        }
+
+        private void SetNextPlayerTurn()
+        {
+            if (CurrentPlayer == Actor.PlayerOne)
+            {
+                CurrentPlayer = Actor.PlayerTwo;
+                    return;
+            }
+
+            CurrentPlayer = Actor.PlayerOne;
+        }
+
+        private Board GetCurrentPlayerBoard()
+        {
+            if (CurrentPlayer == Actor.PlayerOne)
+            {
+                return player1Board;
+            }
+
+            return player2Board;
+        }
+
+        private bool ValideteShipPlacementCommand(string command)
+        {
+            if(!InputTranslatorHelper.IsShip(command[0]))
+            {
+                return false;
+            }
+            if(!InputTranslatorHelper.IsDirection(command[1]))
+            {
+                return false;
+            } 
+            if (!CellID.IsIdValid(command.Substring(2)))
+            {
+                return false;
+            }
+            return true;
+        }
         private string ShipPlacementHint()
         {
             return $"To place ship sent ship ShipSymbol, Direction, and Starting Field  example BVA9\n" +

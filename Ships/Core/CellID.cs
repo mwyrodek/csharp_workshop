@@ -18,7 +18,7 @@ namespace ShipsGame.Core
             }
 
             id = id.ToUpper();
-            if (!this.IsIdValid(id))
+            if (!CellID.IsIdValid(id))
             {
                 throw new ArgumentOutOfRangeException($"{id.ToString()} is not valid ID");
             };
@@ -29,7 +29,7 @@ namespace ShipsGame.Core
             height = splitIdToElements.Item2;
         }
 
-        private bool IsIdValid(string id)
+        public static bool IsIdValid(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -55,7 +55,7 @@ namespace ShipsGame.Core
             return false;
         }
 
-        private bool AreValuesInBound(string id)
+        private static bool AreValuesInBound(string id)
         {
             var splitIdToElements = SplitIdToElements(id);
             int minimumChar = (int)splitIdToElements.Item1 -'A';
@@ -122,7 +122,7 @@ namespace ShipsGame.Core
             return new CellID("A1");
         }
 
-        private Tuple<char, int> SplitIdToElements(string id)
+        private static Tuple<char, int> SplitIdToElements(string id)
         {
             var charArray = id.ToCharArray();
             var value = int.Parse(id.Substring(1));

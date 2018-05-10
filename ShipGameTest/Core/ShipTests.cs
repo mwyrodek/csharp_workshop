@@ -70,7 +70,7 @@ namespace ShipGameTest
  
             Assert.That(ship.IsPlaced, Is.False);
             Assert.That(actionResult.Status, Is.EqualTo(ActionStatus.Failure));
-            Assert.That(actionResult.Messege, Is.EqualTo("Ship can't be placed on B3, B2 becase B2 belongs to diffrent ship"));
+            Assert.That(actionResult.Messege, Is.EqualTo("Ship can't be placed on B3, B2 becase B2 belongs to diffrent ship \n"));
         }
         
         
@@ -83,7 +83,7 @@ namespace ShipGameTest
  
             Assert.That(ship.IsPlaced, Is.False);
             Assert.That(actionResult.Status, Is.EqualTo(ActionStatus.Failure));
-            Assert.That(actionResult.Messege, Is.EqualTo("Ship can't be placed on B1, * becase it is to long and goes beyond boarder"));
+            Assert.That(actionResult.Messege, Is.EqualTo("Ship can't be placed on B1, * becase it is to long and goes beyond boarder \n"));
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace ShipGameTest
 
             Assert.That(ship.IsPlaced, Is.True);
             Assert.That(actionResult.Status, Is.EqualTo(ActionStatus.Failure));
-            Assert.That(actionResult.Messege, Is.EqualTo("Ship is already on board"));
+            Assert.That(actionResult.Messege, Is.EqualTo("Ship is already on board\n"));
         }
        
         
@@ -109,7 +109,7 @@ namespace ShipGameTest
             
             Assert.That(actionResult.AllowRepeat, Is.False);
             Assert.That(actionResult.Status, Is.EqualTo(ActionStatus.Failure));
-            Assert.That(actionResult.Messege, Is.EqualTo("Illegal operation - misses shoudn't come here"));
+            Assert.That(actionResult.Messege, Is.EqualTo("Illegal operation - misses shoudn't come here\n"));
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace ShipGameTest
             
             Assert.That(actionResult.AllowRepeat, Is.False);
             Assert.That(actionResult.Status, Is.EqualTo(ActionStatus.Succes));
-            Assert.That(actionResult.Messege, Is.EqualTo("Enemy Destroyer was Hit!"));
+            Assert.That(actionResult.Messege, Is.EqualTo("Enemy Destroyer was Hit!\n"));
             Assert.That(FakeBoard.First(cell => cell.Id == "C1").WasFired, Is.True);
         }
 
@@ -135,7 +135,7 @@ namespace ShipGameTest
             
             Assert.That(actionResult.AllowRepeat, Is.False);
             Assert.That(actionResult.Status, Is.EqualTo(ActionStatus.Succes));
-            Assert.That(actionResult.Messege, Is.EqualTo("Enemy Destroyer was Sunk!"));
+            Assert.That(actionResult.Messege, Is.EqualTo("Enemy Destroyer was Sunk!\n"));
             Assert.That(FakeBoard.First(cell => cell.Id == "B1").WasFired, Is.True);
         }
 

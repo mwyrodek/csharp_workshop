@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ships.Action;
+using Ships.UI;
 
 namespace ShipsGame.Core
 {
@@ -51,6 +52,10 @@ namespace ShipsGame.Core
             }
         }
 
+        public ActionResult PlaceShip(Command tranlateCommand)
+        {
+            return PlaceShip(tranlateCommand.ShipType, tranlateCommand.Cell, tranlateCommand.Direction);
+        }
 
         public ActionResult PlaceShip(ShipTypes ship, CellID id, Direction placingDirection)
         {
