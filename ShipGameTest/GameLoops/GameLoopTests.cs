@@ -163,9 +163,9 @@ namespace ShipGameTest.GameLoops
         public void GameWon()
         {
             var Action = ContiuneGame();
-            Assert.That(Action, Contains.Substring("Game Won"));
-            Assert.That(Action, Contains.Substring($"Prepering for new game"));
-            Assert.That(Action, Contains.Substring("Enter Player One name"));
+            Assert.That(Action, Contains.Substring("Congratulation Player P2 Won"));
+            Assert.That(Action, Contains.Substring("Starting new game."));
+            Assert.That(Action, Contains.Substring("Please type first player name"));
         }
 
         private string ContiuneGame()
@@ -193,7 +193,11 @@ namespace ShipGameTest.GameLoops
                     {
                         return Action;
                     }
-                    game.Act($"{positon}{i}");
+                    Action = game.Act($"{positon}{i}");
+                    if (Action.Contains("Won"))
+                    {
+                        return Action;
+                    }
                 }
             }
 

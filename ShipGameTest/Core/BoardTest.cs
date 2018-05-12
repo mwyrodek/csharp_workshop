@@ -125,7 +125,7 @@ namespace ShipGameTest
            
             ActionResult result = board.FireMissle(new CellID("A5"));
             Assert.That(result.Status, Is.EqualTo(ActionStatus.Succes));
-            Assert.That(result.Messege, Contains.Substring("Battleship was hit"));
+            Assert.That(result.Messege, Contains.Substring("Enemy Battleship was Hit!"));
             Assert.That(result.AllowRepeat, Is.False);
         }
         
@@ -133,11 +133,12 @@ namespace ShipGameTest
         public void FireAtShip_Hit_ShipSunkReturnSuccess()
         {
             var board = new TestBoard(Actor.PlayerOne);
-            board.PlaceShip(ShipTypes.Battleship, new CellID("A5"), Direction.Vertical);
+            board.PlaceShip(ShipTypes.Destroyer, new CellID("A5"), Direction.Vertical);
            
-            ActionResult result = board.FireMissle(new CellID("A5"));
+            board.FireMissle(new CellID("A5"));
+            ActionResult result = board.FireMissle(new CellID("A4"));
             Assert.That(result.Status, Is.EqualTo(ActionStatus.Succes));
-            Assert.That(result.Messege, Contains.Substring("Destroyer was sunk"));
+            Assert.That(result.Messege, Contains.Substring("Enemy Destroyer was Sunk!"));
             Assert.That(result.AllowRepeat, Is.False);
         }
 

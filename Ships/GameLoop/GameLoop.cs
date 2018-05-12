@@ -60,12 +60,11 @@ namespace Ships.GameLoop
                     case GameState.ShipPlacing:
                         return ShipPlacing(readLine.ToUpper());
                     case GameState.FinnishUp:
-                        break;
+                        return GameWonState();
                     case GameState.InProgress:
                         return TakeFireComand(readLine.ToUpper());
-                        break;
             }
-            throw new System.NotImplementedException();
+            throw new ArgumentOutOfRangeException();
         }
 
         private string TakeFireComand(string command)
@@ -76,16 +75,18 @@ namespace Ships.GameLoop
                 var cellId = new CellID(command);
                 var actionResult = GetCurrentPlayerBoard().FireMissle(cellId);
                 
-                if (!actionResult.AllowRepeat)
-                {
-                    SetNextPlayerTurn();
-                }
+
 
                 if (IsAllEnemyShipSunk())
                 {
                     gameState = GameState.FinnishUp;
                     return GameWonState();
 
+                }
+
+                if (!actionResult.AllowRepeat)
+                {
+                    SetNextPlayerTurn();
                 }
                 messege.Append(actionResult.Messege);
                 messege.AppendLine();
@@ -100,7 +101,16 @@ namespace Ships.GameLoop
 
         private string GameWonState()
         {
-            throw new NotImplementedException();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append($"Congratulation Player {GetCurrentPlayerName()} Won!");
+            stringBuilder.Append("Starting new game.");
+            stringBuilder.Append("Please type first player name");
+            gameState = GameState.Setup;
+            CurrentPlayer = Actor.PlayerOne;
+            player1Name = string.Empty;
+            player2Name = string.Empty;
+
+            return stringBuilder.ToString();
         }
 
         private string Setup(string command)
@@ -165,7 +175,7 @@ namespace Ships.GameLoop
         {
             
             //todo candidate for bug
-            return GetCurrentPlayerBoard().IsAllShipSunk();
+            return GetInActivePlayerBoard().IsAllShipSunk();
         }
 
         private string PlaceShips(string command)
@@ -200,6 +210,16 @@ namespace Ships.GameLoop
             }
 
             return player2Board;
+        }
+
+        private Board GetInActivePlayerBoard()
+        {
+            if (CurrentPlayer == Actor.PlayerOne)
+            {
+                return player2Board;
+            }
+
+            return player1Board;
         }
 
         private bool ValideteShipPlacementCommand(string command)
