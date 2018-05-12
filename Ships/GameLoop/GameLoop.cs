@@ -60,10 +60,47 @@ namespace Ships.GameLoop
                     case GameState.ShipPlacing:
                         return ShipPlacing(readLine.ToUpper());
                     case GameState.FinnishUp:
+                        break;
                     case GameState.InProgress:
+                        return TakeFireComand(readLine.ToUpper());
                         break;
             }
             throw new System.NotImplementedException();
+        }
+
+        private string TakeFireComand(string command)
+        {
+            StringBuilder messege = new StringBuilder();
+            if (CellID.IsIdValid(command))
+            {
+                var cellId = new CellID(command);
+                var actionResult = GetCurrentPlayerBoard().FireMissle(cellId);
+                
+                if (!actionResult.AllowRepeat)
+                {
+                    SetNextPlayerTurn();
+                }
+
+                if (IsAllEnemyShipSunk())
+                {
+                    gameState = GameState.FinnishUp;
+                    return GameWonState();
+
+                }
+                messege.Append(actionResult.Messege);
+                messege.AppendLine();
+            }
+            else
+            {
+                messege.Append($"{command} is not valid command");
+            }
+            messege.Append($"Player {GetCurrentPlayerName()} Turn: provide your target");
+            return messege.ToString();
+        }
+
+        private string GameWonState()
+        {
+            throw new NotImplementedException();
         }
 
         private string Setup(string command)
@@ -105,9 +142,30 @@ namespace Ships.GameLoop
                 }
             }
 
-            messege.Append($"Enter {GetCurrentPlayerName()} Ship and its place:");
-            messege.Append(ShipPlacementHint());
-            return messege.ToString();
+            if (IsAllShipPlaced())
+            {
+                gameState = GameState.InProgress;
+                return TakeFireComand(string.Empty);
+
+            }
+            else
+            {
+                messege.Append($"Enter {GetCurrentPlayerName()} Ship and its place:");
+                messege.Append(ShipPlacementHint());
+                return messege.ToString();
+            }
+        }
+
+        private bool IsAllShipPlaced()
+        {
+            return player1Board.IsAllPlaced() && player2Board.IsAllPlaced();
+        }
+        
+        private bool IsAllEnemyShipSunk()
+        {
+            
+            //todo candidate for bug
+            return GetCurrentPlayerBoard().IsAllShipSunk();
         }
 
         private string PlaceShips(string command)
