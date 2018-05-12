@@ -76,9 +76,27 @@ namespace ShipsGame.Core
             {
                 return new ActionResult(ActionStatus.Failure, $"{cellId.Id} was already shot at", true);
             }
-            
-            PlayerBoard.First(c => c.Id == cellId.Id).MarkAsFired();
+
+            var boardCell = PlayerBoard.First(c => c.Id == cellId.Id);
+            if (boardCell.IsPartOfTheShip())
+            {
+                var first = PlayerShips.First(s => s.ShipPosition.Any(pos => pos.Id == cellId.Id));
+                return first.FireAtShip(cellId);
+            }
+
+            boardCell.MarkAsFired();
             return new ActionResult(ActionStatus.Succes, $"{cellId.Id} Shot missed", false);
+            
+        }
+
+        public bool IsAllPlaced()
+        {
+            return PlayerShips.All(s => s.IsPlaced);
+        }
+
+        public bool IsAllShipSunk()
+        {
+            return PlayerShips.All(s => s.IsShipSunk());
         }
     }
 }

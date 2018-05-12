@@ -12,7 +12,7 @@ namespace ShipsGame.Core
 
         public bool IsPlaced { get; protected set; }
 
-        private List<BoardCell> ShipPosition { get; }
+        public List<BoardCell> ShipPosition { get; }
         protected readonly int shipSize;
         public Ship(ShipTypes shipType)
         {
@@ -85,7 +85,7 @@ namespace ShipsGame.Core
             }
             var messege = String.Empty;
             ShipPosition.First(c=>c.Id == target.Id).MarkAsFired();
-            if (ShipPosition.All(c => c.WasFired() == true))
+            if (IsShipSunk())
             {
                 messege = $"Enemy {shipType.ToString()} was Sunk!\n";
             }
@@ -96,6 +96,11 @@ namespace ShipsGame.Core
             
             return  new ActionResult(ActionStatus.Succes, messege, false);
             
+        }
+
+        public bool IsShipSunk()
+        {
+            return ShipPosition.All(c => c.WasFired());
         }
 
         private List<CellID> GetPlanedShipPosition(CellID startingPosition, Direction direction)

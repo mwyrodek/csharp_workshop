@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Ships.GameLoop;
 
@@ -26,7 +27,7 @@ namespace ShipGameTest.GameLoops
         [Test, Order(2)]
         public void SetFirstPlayerName_AskForSecondPlayerName()
         {
-            player1name = "Arek";
+            player1name = "P1";
             var act = game.Act(player1name);
             Assert.That(act, Contains.Substring(player1name));
             Assert.That(act, Contains.Substring("Enter Player Two name"));
@@ -35,7 +36,7 @@ namespace ShipGameTest.GameLoops
         [Test, Order(3)]
         public void SetSecondPlayerName_AskForPlayer1ShipName()
         {
-            player2name= "Czarek";
+            player2name= "P2";
             var act = game.Act(player2name);
             Assert.That(act, Contains.Substring(player2name));
             Assert.That(act, Contains.Substring($"Enter {player1name} Ship"));
@@ -95,19 +96,113 @@ namespace ShipGameTest.GameLoops
         [Test, Order(10)]
         public void Player1PlaceSecondShip_Correct()
         {
-            var shipPlace = "KVA9";
+            var shipPlace = "BVB9";
             var act = game.Act(shipPlace);
-            Assert.That(act, Contains.Substring($"Enter {player1name} Ship"));
+            Assert.That(act, Contains.Substring($"Enter {player2name} Ship"));
         }
-        //player 1 place ship
-        //player 2 place ship
+        
+        [Test, Order(11)]
+        public void PlacedALlShip_Correct()
+                {
+                    List<string> places = new List<string>
+                    {
+                        "BVB9",
+                        "CVC9",
+                        "CVC9",
+                        "DVD9",
+                        "DVD9",
+                        "SVE9",
+                        "SVE9"
+                    };
+                    var act = string.Empty;
+                    foreach (var ship in places)
+                    {
+                        act = game.Act(ship);
+                    }
+        
+                    Assert.That(act, Contains.Substring($"Player {player1name} Turn: provide your target"));
+                }
+                
+        //player 1 shot miss
+        [Test, Order(12)]
+        public void FireAtFirstShip_Miss()
+        {
+            var Action = game.Act("A1");
+            Assert.That(Action, Contains.Substring("Shot missed"));
+            Assert.That(Action, Contains.Substring($"Player {player2name} Turn: provide your target"));
+        }
+        //player 2 shot miss
+        [Test, Order(13)]
+        public void FireAtFirstShip_MissReapet()
+        {
+            game.Act("A1");
+            var Action = game.Act("A1");
+            Assert.That(Action, Contains.Substring("A1 was already shot at"));
+            Assert.That(Action, Contains.Substring($"Player {player1name} Turn: provide your target"));
+        }
+        
+        [Test, Order(14)]
+        public void FireAtFirstShip_Hit()
+        {
+            game.Act("D9");
+            var Action = game.Act("D9");
+            Assert.That(Action, Contains.Substring("Enemy Destroyer was Hit!"));
+            Assert.That(Action, Contains.Substring($"Player {player1name} Turn: provide your target"));
+        }
 
-        //place last ship change state to game
-        //player 1 shot
-        //player 2 shot
-        //player 1 repeat
-        //player 2 reapet
+        [Test, Order(15)]
+        public void FireAtFirstShip_Sunk()
+        {
+            game.Act("D8");
+            var Action = game.Act("D8");
+            Assert.That(Action, Contains.Substring("Enemy Destroyer was Sunk!"));
+            Assert.That(Action, Contains.Substring($"Player {player1name} Turn: provide your target"));
+        }
+        
+        [Test, Order(16)]
+        public void GameWon()
+        {
+            var Action = ContiuneGame();
+            Assert.That(Action, Contains.Substring("Game Won"));
+            Assert.That(Action, Contains.Substring($"Prepering for new game"));
+            Assert.That(Action, Contains.Substring("Enter Player One name"));
+        }
+
+        private string ContiuneGame()
+        {
+            List<char> width = new List<char>
+            {
+                'A',
+                'B',
+                'C',
+                'D',
+                'E',
+                'F',
+                'G',
+                'H',
+                'I',
+                'J',
+                'K'
+            };
+            for (int i = 1; i < 10; i++)
+            {
+                foreach (var positon in width)
+                {
+                    var Action = game.Act($"{positon}{i}");
+                    if (Action.Contains("Won")) 
+                    {
+                        return Action;
+                    }
+                    game.Act($"{positon}{i}");
+                }
+            }
+
+            return null;
+        }
+        // rest game
+        
         //end game
+        //new game and quit
 
     }
 }

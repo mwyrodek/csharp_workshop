@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using ShipsGame.Core;
 using System.Collections.Generic;
 using System.Linq;
@@ -124,7 +125,67 @@ namespace ShipGameTest
            
             ActionResult result = board.FireMissle(new CellID("A5"));
             Assert.That(result.Status, Is.EqualTo(ActionStatus.Succes));
+            Assert.That(result.Messege, Contains.Substring("Battleship was hit"));
             Assert.That(result.AllowRepeat, Is.False);
+        }
+        
+        [Test]
+        public void FireAtShip_Hit_ShipSunkReturnSuccess()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Battleship, new CellID("A5"), Direction.Vertical);
+           
+            ActionResult result = board.FireMissle(new CellID("A5"));
+            Assert.That(result.Status, Is.EqualTo(ActionStatus.Succes));
+            Assert.That(result.Messege, Contains.Substring("Destroyer was sunk"));
+            Assert.That(result.AllowRepeat, Is.False);
+        }
+
+        [Test]
+        public void IsAllShipsPlaced_shipnotplaced_RetrunsFalse()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Battleship, new CellID("A5"), Direction.Vertical);
+
+            bool isAllPlaced = board.IsAllPlaced();
+            Assert.That(isAllPlaced, Is.False);
+        }
+        
+        [Test]
+        public void IsAllPlaced_allplaced_returnsTrue()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Battleship, new CellID("A5"), Direction.Vertical);
+            board.GetShips().RemoveAll(s => s.IsPlaced == false);
+
+            var isAllPlaced = board.IsAllPlaced();
+            Assert.That(isAllPlaced, Is.True, "Not all ship were placed and yet answer was true");        }
+
+        [Test]
+        public void IsAllShipsSunk_shipstanding_returnsFalse()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Destroyer, new CellID("A5"), Direction.Vertical);
+            board.PlaceShip(ShipTypes.Carrier, new CellID("B7"), Direction.Vertical);
+            board.FireMissle(new CellID("A5"));
+            board.FireMissle(new CellID("A4"));
+
+            var isAllShipSunk = board.IsAllShipSunk();
+            Assert.That(isAllShipSunk, Is.False);
+        }
+
+        [Test]
+        public void IsAllShipsSunk_AllSunk_returnsTrue()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Destroyer, new CellID("A5"), Direction.Vertical);
+            board.FireMissle(new CellID("A5"));
+            board.FireMissle(new CellID("A4"));
+            board.GetShips().RemoveAll(s => s.IsPlaced == false);
+            
+            var isAllShipSunk = board.IsAllShipSunk();
+            Assert.That(isAllShipSunk, Is.True);
+
         }
     }
 
