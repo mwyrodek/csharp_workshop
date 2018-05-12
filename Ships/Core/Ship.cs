@@ -104,10 +104,8 @@ namespace ShipsGame.Core
             {
                     case Direction.Vertical:
                         return GetPlanedShipPositionToDownword(startingPosition);
-                        break;
                     case Direction.Horizontal:
                         return GetPlanedShipPositionToRight(startingPosition);
-                        break;
                     default:
                         throw new InvalidEnumArgumentException();
             }

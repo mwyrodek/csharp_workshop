@@ -1,7 +1,5 @@
 ﻿﻿using System;
- using System.Linq;
  using System.Text;
- using Ships.Action;
  using Ships.UI;
  using ShipsGame.Core;
 
