@@ -20,8 +20,9 @@ namespace ShipsGame.Core
             id = id.ToUpper();
             if (!CellID.IsIdValid(id))
             {
-                throw new ArgumentOutOfRangeException($"{id.ToString()} is not valid ID");
-            };
+                //throw new ArgumentOutOfRangeException($"{id.ToString()} is not valid ID");
+                id = "B3";
+            }
 
             this.Id = id;
             var splitIdToElements = SplitIdToElements(id);
