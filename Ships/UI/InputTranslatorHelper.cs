@@ -42,9 +42,9 @@ namespace Ships.UI
                     return ShipTypes.Carrier;
                 case 'C':
                     return ShipTypes.Crusier;
-                case 'D':
-                    return ShipTypes.Destroyer;
                 case 'S':
+                    return ShipTypes.Destroyer;
+                case 'D':
                     return ShipTypes.Submarine;
                 default:
                     throw new ArgumentOutOfRangeException($"{input} is not valid");
