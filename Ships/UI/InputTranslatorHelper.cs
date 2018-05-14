@@ -14,7 +14,7 @@ namespace Ships.UI
             switch (input)
             {
                 case 'H':
-                    return Direction.Horizontal;
+                    return Direction.Vertical;
                 case 'V':
                     return Direction.Vertical;
                 default:

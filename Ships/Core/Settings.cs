@@ -23,7 +23,7 @@ namespace ShipsGame.Core
             switch (type)
             {
                 case ShipTypes.Battleship:
-                    return 4;
+                    return 1;
                 case ShipTypes.Carrier:
                     return 5;
                 case ShipTypes.Crusier:
