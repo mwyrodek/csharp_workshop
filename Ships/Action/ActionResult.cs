@@ -13,5 +13,11 @@ namespace Ships.Action
             Messege = messege;
             AllowRepeat = allowRepeat;
         }
+
+
+        public override string ToString()
+        {
+            return $"Action Result: Status: `{Status}`  Message: `{Messege}` , AllowReapet`{AllowRepeat}`";
+        }
     }
 }

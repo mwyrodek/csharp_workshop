@@ -4,14 +4,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ships.GameLoop;
+using Ships.StubsForTestingViaUI;
 
 namespace ShipsWeb.Controllers
 {
     public class HomeController : Controller
     {
         private GameLoop game;
-
+        private ShipReadForTest ship;
         public ActionResult Index(string command)
+        {
+            //ProperGame(command);
+            OnlyShips(command);
+            return View();
+        }
+
+        private void ProperGame(string command)
         {
             if (TempData.ContainsKey("Game"))
             {
@@ -22,9 +30,25 @@ namespace ShipsWeb.Controllers
             {
                 game = new GameLoop();
             }
+
             ViewBag.Message = $"{game.Act(command)}";
             TempData["Game"] = game;
-            return View();
+        }
+
+        private void OnlyShips(string command)
+        {
+            if (TempData.ContainsKey("Ship"))
+            {
+                //If so access it here
+                ship = TempData["Ship"] as ShipReadForTest;
+            }
+            else
+            {
+                ship = new ShipReadForTest();
+            }
+
+            ViewBag.Message = $"{ship.ActOnShip(command)}";
+            TempData["Ship"] = ship;
         }
 
         public ActionResult About()

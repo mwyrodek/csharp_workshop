@@ -58,6 +58,7 @@
     <Compile Include="GameLoop\GameLoop.cs" />
     <Compile Include="GameLoop\GameState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StubsForTestingViaUI\ShipReadForTest.cs" />
     <Compile Include="UI\Command.cs" />
     <Compile Include="UI\InputTranslatorHelper.cs" />
   </ItemGroup>
