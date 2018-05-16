@@ -1,5 +1,6 @@
 ﻿﻿using System;
  using System.Text;
+ using System.Web;
  using Ships.UI;
  using ShipsGame.Core;
 
@@ -117,9 +118,11 @@ namespace Ships.GameLoop
 
         private string Setup(string command)
         {
+            var formattableString = $"<b>{command}</b>";
+
             if (string.IsNullOrEmpty(player1Name))
             {
-                player1Name = command;
+                player1Name = formattableString;
                 player1Board = new Board(Actor.PlayerOne);
                 return $"Player One name is {player1Name} \r\n" +
                        $"Enter Player Two name:\r\n";
@@ -127,7 +130,7 @@ namespace Ships.GameLoop
             
             if (string.IsNullOrEmpty(player2Name))
             {
-                player2Name = command;
+                player2Name = formattableString;
                 player2Board = new Board(Actor.PlayerTwo);
                 gameState = GameState.ShipPlacing;
                 CurrentPlayer = Actor.PlayerOne;
