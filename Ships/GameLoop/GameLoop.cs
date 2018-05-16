@@ -219,6 +219,10 @@ namespace Ships.GameLoop
 
         private bool ValideteShipPlacementCommand(string command)
         {
+            if (command.Length < 4)
+            {
+                return false;
+            }
             return InputTranslatorHelper.IsShip(command[0]) &&
                    (InputTranslatorHelper.IsDirection(command[1]) && 
                     CellID.IsIdValid(command.Substring(2)));
