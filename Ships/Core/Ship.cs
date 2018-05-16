@@ -123,13 +123,14 @@ namespace ShipsGame.Core
             var nextCell = startingPosition.GetIdToRight();
             for (int i = 1; i < shipSize; i++)
             {
-                var cellId = new CellID(nextCell);
-                cellIds.Add(cellId);
-                nextCell = cellId.GetIdToRight();
                 if (string.IsNullOrEmpty(nextCell))
                 {
                     break;
                 }
+
+                var cellId = new CellID(nextCell);
+                cellIds.Add(cellId);
+                nextCell = cellId.GetIdToRight();
             }
 
             return cellIds;
