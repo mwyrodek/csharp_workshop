@@ -87,6 +87,18 @@ namespace ShipGameTest
         }
 
         [Test]
+        public void ShipGoesOutOfBoarderHorizon_returns_failure()
+        {
+            var ship = new TestShip(ShipTypes.Carrier);
+            var actionResult = ship.PlaceShip(new CellID("K1"), Direction.Horizontal, ref FakeBoard);
+
+
+            Assert.That(ship.IsPlaced, Is.False);
+            Assert.That(actionResult.Status, Is.EqualTo(ActionStatus.Failure));
+            Assert.That(actionResult.Messege, Is.EqualTo("Ship can't be placed on K1, * becase it is to long and goes beyond boarder \n"));
+        }
+
+        [Test]
         public void ShipAlready_Placed()
         {
             var ship = new TestShip(ShipTypes.Destroyer);
