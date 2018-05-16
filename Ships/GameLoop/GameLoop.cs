@@ -45,14 +45,15 @@ namespace Ships.GameLoop
         {
             if (string.IsNullOrEmpty(readLine) && string.IsNullOrEmpty(player1Name))
             {
-                return "Welcome to ships game please type first player name";
-            }
-            else if(string.IsNullOrEmpty(readLine) && string.IsNullOrEmpty(player1Name))
-            {
-                return "You need to type something";
+                return "Welcome to ships game please type first player name.\r\n";
             }
 
-            
+            if(string.IsNullOrEmpty(readLine) && string.IsNullOrEmpty(player1Name))
+            {
+                return "You need to type something.\r\n";
+            }
+
+
             switch (gameState)
             {
                     case GameState.Setup:
@@ -63,8 +64,9 @@ namespace Ships.GameLoop
                         return GameWonState();
                     case GameState.InProgress:
                         return TakeFireComand(readLine.ToUpper());
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            throw new ArgumentOutOfRangeException();
         }
 
         private string TakeFireComand(string command)
@@ -93,18 +95,18 @@ namespace Ships.GameLoop
             }
             else
             {
-                messege.Append($"{command} is not valid command");
+                messege.Append($"{command} is not valid command.\r\n");
             }
-            messege.Append($"Player {GetCurrentPlayerName()} Turn: provide your target");
+            messege.Append($"Player {GetCurrentPlayerName()} Turn: provide your target.\r\n");
             return messege.ToString();
         }
 
         private string GameWonState()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Congratulation Player {GetCurrentPlayerName()} Won!");
-            stringBuilder.Append("Starting new game.");
-            stringBuilder.Append("Please type first player name");
+            stringBuilder.Append($"Congratulation Player {GetCurrentPlayerName()} Won!\r\n");
+            stringBuilder.Append("Starting new game.\r\n");
+            stringBuilder.Append("Please type first player name:\r\n");
             gameState = GameState.Setup;
             CurrentPlayer = Actor.PlayerOne;
             player1Name = string.Empty;
@@ -119,8 +121,8 @@ namespace Ships.GameLoop
             {
                 player1Name = command;
                 player1Board = new Board(Actor.PlayerOne);
-                return $"Player One name is {player1Name} \n" +
-                       $"Enter Player Two name";
+                return $"Player One name is {player1Name} \r\n" +
+                       $"Enter Player Two name:\r\n";
             }
             
             if (string.IsNullOrEmpty(player2Name))
@@ -130,10 +132,10 @@ namespace Ships.GameLoop
                 gameState = GameState.ShipPlacing;
                 CurrentPlayer = Actor.PlayerOne;
                 var nextStepMessage = ShipPlacing(string.Empty);
-                return $"Player two name is {player2Name} \n {nextStepMessage}";
+                return $"Player two name is {player2Name} \r\n {nextStepMessage}\r\n";
             } 
             
-            throw new ArgumentException("You shouldn't be here");
+            throw new ArgumentException("You shouldn't be here.\r\n");
         }
 
         private string ShipPlacing(string command)
@@ -143,7 +145,7 @@ namespace Ships.GameLoop
             {
                 if (!ValideteShipPlacementCommand(command))
                 {
-                    messege.Append($"\"{command}\" is not valid input\n");
+                    messege.Append($"\"{command}\" is not valid input\r\n");
                 }
                 else
                 {
@@ -160,7 +162,7 @@ namespace Ships.GameLoop
             }
             else
             {
-                messege.Append($"Enter {GetCurrentPlayerName()} Ship and its place:");
+                messege.Append($"Enter {GetCurrentPlayerName()} Ship and its place:\r\n");
                 messege.Append(ShipPlacementHint());
                 return messege.ToString();
             }
@@ -174,7 +176,7 @@ namespace Ships.GameLoop
         private bool IsAllEnemyShipSunk()
         {
             
-            //todo candidate for bug
+            //todo candidate for bug change it to current player
             return GetInActivePlayerBoard().IsAllShipSunk();
         }
 
@@ -204,50 +206,30 @@ namespace Ships.GameLoop
 
         private Board GetCurrentPlayerBoard()
         {
-            if (CurrentPlayer == Actor.PlayerOne)
-            {
-                return player1Board;
-            }
-
-            return player2Board;
+            return CurrentPlayer == Actor.PlayerOne ? player1Board : player2Board;
         }
 
         private Board GetInActivePlayerBoard()
         {
-            if (CurrentPlayer == Actor.PlayerOne)
-            {
-                return player2Board;
-            }
-
-            return player1Board;
+            return CurrentPlayer == Actor.PlayerOne ? player2Board : player1Board;
         }
 
         private bool ValideteShipPlacementCommand(string command)
         {
-            if(!InputTranslatorHelper.IsShip(command[0]))
-            {
-                return false;
-            }
-            if(!InputTranslatorHelper.IsDirection(command[1]))
-            {
-                return false;
-            } 
-            if (!CellID.IsIdValid(command.Substring(2)))
-            {
-                return false;
-            }
-            return true;
+            return InputTranslatorHelper.IsShip(command[0]) &&
+                   (InputTranslatorHelper.IsDirection(command[1]) && 
+                    CellID.IsIdValid(command.Substring(2)));
         }
         private string ShipPlacementHint()
         {
-            return $"To place ship sent ship ShipSymbol, Direction, and Starting Field  example BVA9\n" +
-                   $"Directions V - vertical UP => Down   H - Horizontal Left => Right\n" +
-                   $"Ship Types and size" +
-                   $"B - Battleship {Settings.GetShipSize(ShipTypes.Battleship)}\n" +
-                   $"K - Battleship {Settings.GetShipSize(ShipTypes.Carrier)}\n" +
-                   $"C - Battleship {Settings.GetShipSize(ShipTypes.Crusier)}\n" +
-                   $"D - Battleship {Settings.GetShipSize(ShipTypes.Destroyer)}\n" +
-                   $"S - Battleship {Settings.GetShipSize(ShipTypes.Submarine)}\n";
+            return $"To place ship sent ship ShipSymbol, Direction, and Starting Field \r\n  example BVA9\r\n" +
+                   $"Ship Types and size \r\n" +
+                   $"B - {ShipTypes.Battleship} {Settings.GetShipSize(ShipTypes.Battleship)}\r\n" +
+                   $"K - {ShipTypes.Carrier} {Settings.GetShipSize(ShipTypes.Carrier)}\r\n" +
+                   $"C - {ShipTypes.Crusier} {Settings.GetShipSize(ShipTypes.Crusier)}\r\n" +
+                   $"D - {ShipTypes.Destroyer} {Settings.GetShipSize(ShipTypes.Destroyer)}\r\n" +
+                   $"S - {ShipTypes.Submarine} {Settings.GetShipSize(ShipTypes.Submarine)}\r\n"+
+                   $"Directions V - vertical UP => Down   H - Horizontal Left => Right\r\n";
         }
 
         private string GetCurrentPlayerName()
@@ -260,7 +242,7 @@ namespace Ships.GameLoop
                         return player2Name;
                     
                     default:
-                        throw new ArgumentOutOfRangeException($"player {CurrentPlayer} is unknown");
+                        throw new ArgumentOutOfRangeException($"Player {CurrentPlayer} is unknown.\r\n");
             }
         }
     }

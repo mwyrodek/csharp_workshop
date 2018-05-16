@@ -13,7 +13,7 @@ namespace ShipsGame.Core
         /// </summary>
         public const int BoardWidth = 11;
         /// <summary>
-        /// Heigh is presented by numbers 1 2 3 4
+        /// Height is presented by numbers 1 2 3 4
         /// 9 is highest
         /// 1 is lowest
         /// </summary>

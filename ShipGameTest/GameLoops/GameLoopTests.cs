@@ -21,7 +21,7 @@ namespace ShipGameTest.GameLoops
         [Test, Order(1)]
         public void FreshSetup_AskForPlayerName()
         {
-            Assert.That(game.Act(string.Empty), Is.EqualTo("Welcome to ships game please type first player name"));
+            Assert.That(game.Act(string.Empty), Is.EqualTo("Welcome to ships game please type first player name.\r\n"));
         }
 
         [Test, Order(2)]

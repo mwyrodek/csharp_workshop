@@ -22,7 +22,8 @@ namespace ShipsWeb.Controllers
             {
                 game = new GameLoop();
             }
-            ViewBag.Message = $"{game.Act(command)}";
+
+            ViewBag.Message = Server.HtmlEncode(game.Act(command)).Replace("\r\n", "<br />");
             TempData["Game"] = game;
             return View();
         }
