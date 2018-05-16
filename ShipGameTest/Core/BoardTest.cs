@@ -88,7 +88,7 @@ namespace ShipGameTest
             var result = board.PlaceShip(ShipTypes.Battleship, new CellID("A6"), Direction.Vertical);
             
             Assert.That(result.Status, Is.EqualTo(ActionStatus.Failure));
-            Assert.That(result.Messege, Is.EqualTo("All shipes of type: Battleship were already placed"));
+            Assert.That(result.Messege, Is.EqualTo("All ships of type: Battleship were already placed.\n"));
             Assert.That(result.AllowRepeat, Is.True);
         }
 
@@ -100,7 +100,7 @@ namespace ShipGameTest
             ActionResult result = board.FireMissle(new CellID("C3"));
             
             Assert.That(result.Status, Is.EqualTo(ActionStatus.Succes));
-            Assert.That(result.Messege, Is.EqualTo("C3 Shot missed"));
+            Assert.That(result.Messege, Is.EqualTo("C3 Shot missed.\n"));
             Assert.That(result.AllowRepeat, Is.False);
         }
         
@@ -113,7 +113,7 @@ namespace ShipGameTest
             
             ActionResult result = board.FireMissle(new CellID("C3"));
             Assert.That(result.Status, Is.EqualTo(ActionStatus.Failure));
-            Assert.That(result.Messege, Is.EqualTo("C3 was already shot at"));
+            Assert.That(result.Messege, Is.EqualTo("C3 was already shot at.\n"));
             Assert.That(result.AllowRepeat, Is.True);
         }
         

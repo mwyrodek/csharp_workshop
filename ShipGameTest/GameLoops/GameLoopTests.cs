@@ -89,7 +89,7 @@ namespace ShipGameTest.GameLoops
         {
             var shipPlace = "KVA9";
             var act = game.Act(shipPlace);
-            Assert.That(act, Contains.Substring("All shipes of type: Carrier were already placed"));
+            Assert.That(act, Contains.Substring("All ships of type: Carrier were already placed"));
             Assert.That(act, Contains.Substring($"Enter {player1name} Ship"));
         }
 

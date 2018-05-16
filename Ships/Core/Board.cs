@@ -62,7 +62,7 @@ namespace ShipsGame.Core
             var candidate = PlayerShips.FirstOrDefault(s => s.shipType == ship && !s.IsPlaced);
             if (candidate == null)
             {
-                var faliuteMessege = $"All shipes of type: {ship.ToString()} were already placed";
+                var faliuteMessege = $"All ships of type: {ship.ToString()} were already placed.\n";
                 return new ActionResult(ActionStatus.Failure, faliuteMessege, true);
             }
             var actionResult = candidate.PlaceShip(id, placingDirection, ref PlayerBoard);
@@ -74,7 +74,7 @@ namespace ShipsGame.Core
         {
             if (PlayerBoard.First(c => c.Id == cellId.Id).WasFired())
             {
-                return new ActionResult(ActionStatus.Failure, $"{cellId.Id} was already shot at", true);
+                return new ActionResult(ActionStatus.Failure, $"{cellId.Id} was already shot at.\n", true);
             }
 
             var boardCell = PlayerBoard.First(c => c.Id == cellId.Id);
@@ -85,7 +85,7 @@ namespace ShipsGame.Core
             }
 
             boardCell.MarkAsFired();
-            return new ActionResult(ActionStatus.Succes, $"{cellId.Id} Shot missed", false);
+            return new ActionResult(ActionStatus.Succes, $"{cellId.Id} Shot missed.\n", false);
             
         }
 
