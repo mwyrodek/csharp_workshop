@@ -4,6 +4,7 @@ using ShipsGame.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using Ships.Action;
 
 namespace ShipGameTest
@@ -187,6 +188,112 @@ namespace ShipGameTest
             var isAllShipSunk = board.IsAllShipSunk();
             Assert.That(isAllShipSunk, Is.True);
 
+        }
+
+
+        [Test]
+        public void EmptyMapIsPrinted()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            
+
+            var hitMap = board.HitBoardHtmlMap();
+            var countTD = Regex.Matches(hitMap, "<td>").Count;
+            var countTDend = Regex.Matches(hitMap, "<td>").Count;
+
+            Assert.That(hitMap, Contains.Substring("<table>") );
+            Assert.That(hitMap, Contains.Substring("<td>A</td>"));
+            Assert.That(hitMap, Contains.Substring("<td>F</td>"));
+            Assert.That(hitMap, Contains.Substring("<td>K</td>"));
+            Assert.That(hitMap, Contains.Substring("</table>") );
+            Assert.That(countTD, Is.EqualTo(143) );
+            Assert.That(countTDend, Is.EqualTo(143) );
+        }
+
+
+
+        [Test]
+        public void MapIsPrinted_hit_areMarked()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Destroyer, new CellID("A5"), Direction.Vertical);
+            board.PlaceShip(ShipTypes.Carrier, new CellID("B7"), Direction.Vertical);
+            board.FireMissle(new CellID("A5"));
+            board.FireMissle(new CellID("A4"));
+
+            var hitMap = board.HitBoardHtmlMap();
+            var countHits = Regex.Matches(hitMap, "<td>D</td>").Count;
+            Assert.That(countHits, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void MapIsPrinted_mises_areMarked()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Destroyer, new CellID("A5"), Direction.Vertical);
+            board.PlaceShip(ShipTypes.Carrier, new CellID("B7"), Direction.Vertical);
+            board.FireMissle(new CellID("C5"));
+            board.FireMissle(new CellID("C4"));
+
+            var hitMap = board.HitBoardHtmlMap();
+            var countMisses = Regex.Matches(hitMap, "<td>X</td>").Count;
+            Assert.That(countMisses, Is.EqualTo(2));
+        }
+
+
+        [Test]
+        public void MapWithShipIsPrinted()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Destroyer, new CellID("A5"), Direction.Vertical);
+            board.PlaceShip(ShipTypes.Carrier, new CellID("B7"), Direction.Vertical);
+
+            var shipMap= board.ShipsBoardHtmlMap();
+            var countTD = Regex.Matches(shipMap, "<td>").Count;
+            var countTDend = Regex.Matches(shipMap, "<td>").Count;
+            var carrierCount = Regex.Matches(shipMap, "<td>K</td>").Count;
+            var destroyerCount = Regex.Matches(shipMap, "<td>D</td>").Count;
+            
+
+            Assert.That(shipMap, Contains.Substring("<table>"));
+            Assert.That(shipMap, Contains.Substring("<td>A</td>"));
+            Assert.That(shipMap, Contains.Substring("<td>F</td>"));
+            Assert.That(shipMap, Contains.Substring("<td>K</td>"));
+            Assert.That(shipMap, Contains.Substring("</table>"));
+            Assert.That(countTD, Is.EqualTo(143));
+            Assert.That(countTDend, Is.EqualTo(143));
+            Assert.That(destroyerCount, Is.EqualTo(4));
+            Assert.That(carrierCount, Is.EqualTo(7));
+        }
+
+
+
+        [Test]
+        public void MapWithShip_hit_areMarked()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Destroyer, new CellID("A5"), Direction.Vertical);
+            board.PlaceShip(ShipTypes.Carrier, new CellID("B7"), Direction.Vertical);
+            board.FireMissle(new CellID("A5"));
+            board.FireMissle(new CellID("A4"));
+
+            var shipsBoardHtmlMap = board.ShipsBoardHtmlMap();
+            var countHits = Regex.Matches(shipsBoardHtmlMap, "<td>O</td>").Count;
+            Assert.That(countHits, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void MapWithShip_mises_areMarked()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceShip(ShipTypes.Destroyer, new CellID("A5"), Direction.Vertical);
+            board.PlaceShip(ShipTypes.Carrier, new CellID("B7"), Direction.Vertical);
+            board.FireMissle(new CellID("C5"));
+            board.FireMissle(new CellID("C4"));
+
+            var shipsBoardHtmlMap = board.ShipsBoardHtmlMap();
+            var countMisses = Regex.Matches(shipsBoardHtmlMap, "<td>X</td>").Count;
+            Assert.That(countMisses, Is.EqualTo(2));
         }
     }
 

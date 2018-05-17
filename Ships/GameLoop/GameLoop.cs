@@ -54,20 +54,27 @@ namespace Ships.GameLoop
                 return "You need to type something.\r\n";
             }
 
-
+            var message = string.Empty;
             switch (gameState)
             {
                     case GameState.Setup:
-                        return Setup(readLine);
+                        message =Setup(readLine);
+                        break;
                     case GameState.ShipPlacing:
-                        return ShipPlacing(readLine.ToUpper());
+                        message= ShipPlacing(readLine.ToUpper());
+                        break;
                     case GameState.FinnishUp:
-                        return GameWonState();
+                        message = GameWonState();
+                        break;
                     case GameState.InProgress:
-                        return TakeFireComand(readLine.ToUpper());
+                        message = TakeFireComand(readLine.ToUpper());
+                        break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            message += BuildRepresntationCurrentPlayer();
+            return message;
         }
 
         private string TakeFireComand(string command)
@@ -252,5 +259,28 @@ namespace Ships.GameLoop
                         throw new ArgumentOutOfRangeException($"Player {CurrentPlayer} is unknown.\r\n");
             }
         }
+
+        private string BuildRepresntationCurrentPlayer()
+        {
+            StringBuilder ships = new StringBuilder();
+
+            ships.Append("<b>Your Board</b>: \t\n");
+            ships.Append(DisplayShipsMap(GetCurrentPlayerBoard()));
+            ships.Append($"<b>Target Board</b>: \t\n");
+            ships.Append(DisplayTargetMap(GetCurrentPlayerBoard()));
+            return ships.ToString();
+        }
+
+        private string DisplayTargetMap(Board PlayerBoard)
+        {
+            return PlayerBoard.HitBoardHtmlMap();
+        }
+
+        private string DisplayShipsMap(Board PlayerBoard)
+        {
+            return PlayerBoard.ShipsBoardHtmlMap();
+        }
+
+
     }
 }

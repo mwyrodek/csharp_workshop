@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Ships.Action;
 using Ships.UI;
 
@@ -97,6 +98,128 @@ namespace ShipsGame.Core
         public bool IsAllShipSunk()
         {
             return PlayerShips.All(s => s.IsShipSunk());
+        }
+
+        /// <summary>
+        /// Generate maps with makres of fire
+        /// </summary>
+        /// <returns></returns>
+        public string HitBoardHtmlMap()
+        {
+            
+            StringBuilder map = new StringBuilder();
+
+            map.Append(TableHeader());
+
+            for (int i = 9; i > 0; i--)
+            {
+                map.Append($"<tr><td>{i}</td>");
+                var boardCells = PlayerBoard.Where(c => c.Id.Contains(i.ToString())).OrderBy(c=>c.Id);
+                foreach (var boardCell in boardCells)
+                {
+                    if (boardCell.WasFired())
+                    {
+                        if (boardCell.IsPartOfTheShip())
+                        {
+                            var ship = PlayerShips.FirstOrDefault(c => c.ShipPosition.Any(id => id.Id == boardCell.Id));
+                            var translateShipTypeToSymbol = InputTranslatorHelper.TranslateShipTypeToSymbol(ship.shipType);
+                            map.Append($"<td>{translateShipTypeToSymbol}</td>");
+                        }
+                        else
+                        {
+                            map.Append($"<td>X</td>");
+                        }
+                    }
+                    else
+                    {
+                        map.Append($"<td> </td>");
+                    }
+                    
+                }
+
+                map.Append($"<td>{i}</td></tr>");
+            }
+            map.Append(TableBottom());
+            return map.ToString();
+        }
+
+        private string TableBottom()
+        {
+            StringBuilder TF = new StringBuilder();
+            TF.Append("<tr>\n");
+            TF.Append(GetCordinatesBar());
+            TF.Append("</tr>\n");
+            TF.Append("</table>");
+            return TF.ToString();
+        }
+
+        private string TableHeader()
+        {
+            StringBuilder TH = new StringBuilder();
+            TH.Append("<table>\n");
+            TH.Append("<tr>\n");
+            TH.Append(GetCordinatesBar());
+            TH.Append("</tr>\n");
+            return TH.ToString();
+        }
+
+        private string GetCordinatesBar()
+        {
+            StringBuilder Cordianters = new StringBuilder();
+            Cordianters.Append("<td>-</td>");
+            for (int i = 0; i < Settings.BoardWidth; i++)
+            {
+                char value = (char) ('A' + i);
+                Cordianters.Append($"<td>{value}</td>");
+            }
+            Cordianters.Append("<td>-</td>");
+            return Cordianters.ToString();
+        }
+
+
+        public string ShipsBoardHtmlMap()
+        {
+
+            StringBuilder map = new StringBuilder();
+
+            map.Append(TableHeader());
+
+            for (int i = 9; i > 0; i--)
+            {
+                map.Append($"<tr><td>{i}</td>");
+                var boardCells = PlayerBoard.Where(c => c.Id.Contains(i.ToString())).OrderBy(c => c.Id);
+                foreach (var boardCell in boardCells)
+                {
+                    if (boardCell.WasFired())
+                    {
+                        if (boardCell.IsPartOfTheShip())
+                        {
+                            var ship = PlayerShips.FirstOrDefault(c => c.ShipPosition.Any(id => id.Id == boardCell.Id));
+                            var translateShipTypeToSymbol = InputTranslatorHelper.TranslateShipTypeToSymbol(ship.shipType);
+                            map.Append($"<td>O</td>");
+                        }
+                        else
+                        {
+                            map.Append($"<td>X</td>");
+                        }
+                    }
+                    else if(boardCell.IsPartOfTheShip())
+                    {
+                        var ship = PlayerShips.FirstOrDefault(c => c.ShipPosition.Any(id => id.Id == boardCell.Id));
+                        var translateShipTypeToSymbol = InputTranslatorHelper.TranslateShipTypeToSymbol(ship.shipType);
+                        map.Append($"<td>{translateShipTypeToSymbol}</td>");
+                    }
+                    else
+                    {
+                        map.Append($"<td> </td>");
+                    }
+
+                }
+
+                map.Append($"<td>{i}</td></tr>");
+            }
+            map.Append(TableBottom());
+            return map.ToString();
         }
     }
 }

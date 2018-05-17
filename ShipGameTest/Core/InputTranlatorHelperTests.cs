@@ -76,6 +76,18 @@ namespace ShipGameTest
             Assert.That(translateToDirection, Is.EqualTo(expecteDirection));
         }
 
+
+        [TestCase(ShipTypes.Battleship, 'B')]
+        [TestCase(ShipTypes.Carrier, 'K')]
+        [TestCase(ShipTypes.Crusier, 'C')]
+        [TestCase(ShipTypes.Destroyer,'D')]
+        [TestCase(ShipTypes.Submarine, 'S')]
+        public void TranslateShipToSymbol(ShipTypes shipTypes, char expectedSymbol)
+        {
+            var translateToDirection = InputTranslatorHelper.TranslateShipTypeToSymbol(shipTypes);
+            Assert.That(translateToDirection, Is.EqualTo(expectedSymbol));
+        }
+
         [TestCase('A')]
         [TestCase('g')]
         [TestCase('h')]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using ShipsGame.Core;
 
@@ -48,6 +49,25 @@ namespace Ships.UI
                     return ShipTypes.Submarine;
                 default:
                     throw new ArgumentOutOfRangeException($"{input} is not valid");
+            }
+        }
+
+        public static char TranslateShipTypeToSymbol(ShipTypes ship)
+        {
+            switch (ship)
+            {
+                case ShipTypes.Battleship:
+                    return 'B';
+                case ShipTypes.Carrier:
+                    return 'K';
+                case ShipTypes.Crusier:
+                    return 'C';
+                case ShipTypes.Destroyer:
+                    return 'D';
+                case ShipTypes.Submarine:
+                    return 'S';
+                default:
+                    throw new InvalidEnumArgumentException();
             }
         }
 
