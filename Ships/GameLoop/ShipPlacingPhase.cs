@@ -4,7 +4,7 @@ using ShipsGame.Core;
 
 namespace Ships.GameLoop
 {
-    public class ShipPlacingPhase
+    public static class ShipPlacingPhase
     {
         private static GameData gameData;
         public static string RandomShipPlacing(ref GameData data)
@@ -16,7 +16,7 @@ namespace Ships.GameLoop
             return FirePhase.TakeFireComand(string.Empty, ref gameData);
         }
 
-        public static string ShipPlacing(string command, ref GameData data)
+        public static string PlaceShip(string command, ref GameData data)
         {
             gameData = data;
             StringBuilder message = new StringBuilder();

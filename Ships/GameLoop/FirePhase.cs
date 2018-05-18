@@ -28,7 +28,7 @@ namespace Ships.GameLoop
                 messege.Append(actionResult.Messege);
                 messege.AppendLine();
             }
-            else
+            else if(!string.IsNullOrEmpty(command))
             {
                 messege.Append($"{command} is not valid command.\r\n");
             }

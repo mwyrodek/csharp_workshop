@@ -37,7 +37,7 @@ namespace Ships.GameLoop
                     message.Append(GameSetupPhase.Setup(readLine, ref gameData));
                     break;
                 case GameState.ShipPlacing:
-                    message.Append(ShipPlacingPhase.ShipPlacing(readLine.ToUpper(),ref gameData));
+                    message.Append(ShipPlacingPhase.PlaceShip(readLine.ToUpper(),ref gameData));
                     break;
                 case GameState.FinnishUp:
                     message.Append(CleanupPhase.GameWonState(ref gameData));
@@ -49,15 +49,19 @@ namespace Ships.GameLoop
                     throw new ArgumentOutOfRangeException();
             }
 
-            switch (gameData.GameState)
+            if (!gameData.IsWaitingForNextPlayer)
             {
-                case GameState.InProgress:
-                    message.Append(BuildRepresentationCurrentPlayer());
-                    break;
-                case GameState.ShipPlacing:
-                    message.Append(DisplayeShipsMap());
-                    break;
+                switch (gameData.GameState)
+                {
+                    case GameState.InProgress:
+                        message.Append(BuildRepresentationCurrentPlayer());
+                        break;
+                    case GameState.ShipPlacing:
+                        message.Append(DisplayeShipsMap());
+                        break;
+                }
             }
+
             message.Append("Reminder after Naming Players you can gave up by pressing <b>Q<b>");
 
             return message.ToString();

@@ -2,7 +2,7 @@
 
 namespace Ships.GameLoop
 {
-    public class GameSetupPhase
+    public static class GameSetupPhase
     {
         public static string Setup(string command, ref GameData gameData)
         {
@@ -34,7 +34,7 @@ namespace Ships.GameLoop
             else
             {
                 gameData.GameState = GameState.ShipPlacing;
-                var nextStepMessage = ShipPlacingPhase.ShipPlacing(string.Empty, ref gameData);
+                var nextStepMessage = ShipPlacingPhase.PlaceShip(string.Empty, ref gameData);
                 return $"Manual setup enabled \r\n {nextStepMessage}";
             }
         }

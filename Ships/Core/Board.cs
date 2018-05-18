@@ -19,6 +19,7 @@ namespace ShipsGame.Core
             PlayerShips = new List<Ship>();
             CreateBoard();
             PrepareShips();
+            Owner = actor;
         }
 
         private void PrepareShips()

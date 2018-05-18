@@ -52,6 +52,7 @@
     <Compile Include="GameLoops\GameDataTest.cs" />
     <Compile Include="GameLoops\GameLoopRandomTests.cs" />
     <Compile Include="GameLoops\GameLoopTests.cs" />
+    <Compile Include="GameLoops\PlayerSwitchngPhase.cs" />
     <Compile Include="ShipTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
