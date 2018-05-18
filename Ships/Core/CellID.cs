@@ -133,5 +133,21 @@ namespace ShipsGame.Core
         {
             return $"{symbol}{value}";
         }
+
+        public static CellID RandomCelll()
+        {
+            char c;
+            int i;
+            var id = string.Empty;
+            Random rand = new Random();
+            while (!IsIdValid(id))
+            {
+                c = (char) ('A' + rand.Next(Settings.BoardWidth));
+                i = rand.Next(Settings.BoardHeight+1);
+                id = $"{c}{i}";
+            }
+
+            return new CellID(id);
+        }
     }
 }

@@ -221,5 +221,26 @@ namespace ShipsGame.Core
             map.Append(TableBottom());
             return map.ToString();
         }
+
+        public void PlaceAllShipsAtRandom()
+        {
+            Random rand = new Random();
+            while (PlayerShips.Any(s=>!s.IsPlaced))
+            {
+                var randomCelll = CellID.RandomCelll();
+                var first = PlayerShips.First(s => !s.IsPlaced);
+                Direction direct;
+                if (rand.Next(2) > 0)
+                {
+                    direct = Direction.Horizontal;
+                }
+                else
+                {
+                    direct = Direction.Vertical;
+                }
+
+                first.PlaceShip(randomCelll, direct, ref PlayerBoard);
+            }
+        }
     }
 }

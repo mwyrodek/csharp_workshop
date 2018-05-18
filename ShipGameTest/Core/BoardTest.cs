@@ -295,6 +295,17 @@ namespace ShipGameTest
             var countMisses = Regex.Matches(shipsBoardHtmlMap, "<td>X</td>").Count;
             Assert.That(countMisses, Is.EqualTo(2));
         }
+
+
+        [Test]
+        public void Place_Ship_At_Random()
+        {
+            var board = new TestBoard(Actor.PlayerOne);
+            board.PlaceAllShipsAtRandom();
+
+            var count = board.GetShips().Count(s => s.IsPlaced);
+            Assert.That(count, Is.EqualTo(5));
+        }
     }
 
 

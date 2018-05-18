@@ -5,6 +5,7 @@
         Setup,
         InProgress,
         FinnishUp,
-        ShipPlacing
+        ShipPlacing,
+        RandomShips
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="Core\InputTranlatorHelperTests.cs" />
     <Compile Include="Core\SettingsTest.cs" />
     <Compile Include="Core\ShipTests.cs" />
+    <Compile Include="GameLoops\GameLoopRandomTests.cs" />
     <Compile Include="GameLoops\GameLoopTests.cs" />
     <Compile Include="ShipTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

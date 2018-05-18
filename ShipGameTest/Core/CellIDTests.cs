@@ -94,5 +94,16 @@ namespace ShipGameTest
 
             Assert.That(actualResult.Count, Is.EqualTo(0));
         }
+
+        [TestCase()]
+        public void GenereteRandomCellID_ReturnsValid()
+        {
+
+            for (int i = 0; i < 100; i++)
+            {
+                var actualResult = CellID.RandomCelll();
+                Assert.That(CellID.IsIdValid(actualResult.Id), Is.True);
+            }
+        }
     }
 }

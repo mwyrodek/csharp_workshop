@@ -39,10 +39,18 @@ namespace ShipGameTest.GameLoops
             player2name= "P2";
             var act = game.Act(player2name);
             Assert.That(act, Contains.Substring(player2name));
-            Assert.That(act, Contains.Substring($"Enter <b>{player1name}</b> Ship"));
+            Assert.That(act, Contains.Substring($"Send R for Random Ship Placing"));
+        }
+        [Test, Order(4)]
+        public void SkipRandom_AskForPlayer1ShipName()
+        {
+            
+            var act = game.Act("AA");
+            Assert.That(act, Contains.Substring(player1name));
+            Assert.That(act, Contains.Substring($"Manual setup enabled "));
         }
 
-        [Test, Order(4)]
+        [Test, Order(5)]
         public void Player1PlaceShip_PutNotRealData()
         {
             var act = game.Act(player2name);
@@ -50,7 +58,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(act, Contains.Substring($"Enter <b>{player1name}</b> Ship"));
         }
 
-        [Test, Order(5)]
+        [Test, Order(6)]
         public void Player1PlaceShip_PutItInvalid()
         {
             var shipPlace = "KVA1";
@@ -59,7 +67,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(act, Contains.Substring($"Enter <b>{player1name}</b> Ship"));
         }
 
-        [Test, Order(6)]
+        [Test, Order(7)]
         public void Player1PlaceShip_PutItCorrect()
         {
             var shipPlace = "KVA9";
@@ -67,7 +75,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(act, Contains.Substring($"Enter <b>{player2name}</b> Ship"));
         }
 
-        [Test, Order(7)]
+        [Test, Order(8)]
         public void Player2PlaceShip_PutItCorrect()
         {
             var shipPlace = "KVA9";
@@ -75,7 +83,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(act, Contains.Substring($"Enter <b>{player1name}</b> Ship"));
         }
 
-        [Test, Order(8)]
+        [Test, Order(9)]
         public void Player1PlaceShip_PlaceAlreadyTaken()
         {
             var shipPlace = "CVA9";
@@ -84,7 +92,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(act, Contains.Substring($"Enter <b>{player1name}</b> Ship"));
         }
 
-        [Test, Order(9)]
+        [Test, Order(10)]
         public void Player1PlaceShip_ShipAlreadyUsed()
         {
             var shipPlace = "KVA9";
@@ -93,7 +101,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(act, Contains.Substring($"Enter <b>{player1name}</b> Ship"));
         }
 
-        [Test, Order(10)]
+        [Test, Order(11)]
         public void Player1PlaceSecondShip_Correct()
         {
             var shipPlace = "BVB9";
@@ -101,7 +109,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(act, Contains.Substring($"Enter <b>{player2name}</b> Ship"));
         }
         
-        [Test, Order(11)]
+        [Test, Order(12)]
         public void PlacedALlShip_Correct()
                 {
                     List<string> places = new List<string>
@@ -124,7 +132,7 @@ namespace ShipGameTest.GameLoops
                 }
                 
         //player 1 shot miss
-        [Test, Order(12)]
+        [Test, Order(13)]
         public void FireAtFirstShip_Miss()
         {
             var Action = game.Act("A1");
@@ -132,7 +140,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(Action, Contains.Substring($"Player <b>{player2name}</b> Turn: provide your target"));
         }
         //player 2 shot miss
-        [Test, Order(13)]
+        [Test, Order(14)]
         public void FireAtFirstShip_MissReapet()
         {
             game.Act("A1");
@@ -141,7 +149,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(Action, Contains.Substring($"Player <b>{player1name}</b> Turn: provide your target"));
         }
         
-        [Test, Order(14)]
+        [Test, Order(15)]
         public void FireAtFirstShip_Hit()
         {
             game.Act("D9");
@@ -150,7 +158,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(Action, Contains.Substring($"Player <b>{player1name}</b> Turn: provide your target"));
         }
 
-        [Test, Order(15)]
+        [Test, Order(16)]
         public void FireAtFirstShip_Sunk()
         {
             game.Act("D8");
@@ -159,7 +167,7 @@ namespace ShipGameTest.GameLoops
             Assert.That(Action, Contains.Substring($"Player <b>{player1name}</b> Turn: provide your target"));
         }
         
-        [Test, Order(16)]
+        [Test, Order(17)]
         public void GameWon()
         {
             var Action = ContiuneGame();
@@ -203,10 +211,5 @@ namespace ShipGameTest.GameLoops
 
             return null;
         }
-        // rest game
-        
-        //end game
-        //new game and quit
-
     }
 }

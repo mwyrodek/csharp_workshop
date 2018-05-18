@@ -1,6 +1,7 @@
 ﻿﻿using System;
  using System.Text;
  using System.Web;
+ using System.Web.UI.WebControls;
  using Ships.UI;
  using ShipsGame.Core;
 
@@ -8,73 +9,78 @@ namespace Ships.GameLoop
 {
     public class GameLoop
     {
-        private GameState gameState;
+        private GameState gameState = GameState.Setup;
         private string player1Name;
         private string player2Name;
         private Board player1Board;
         private Board player2Board;
         private Actor CurrentPlayer;
         
-        // start game
-        // select ai 
-        // place ships
-        // ai places 
-        // shot 
-        // ai shots
-        // check board state
-        // ask for new imput
-        
-        
-        //Q - kill game
-        //
-        
-        //actions
-        //state - menu /setup phase/ game 
-        
-        //menu 
-        //    new game
-        //    fast setup - streach goal
-        //
-
-
-        public GameLoop()
-        {
-            gameState = GameState.Setup;
-        }
-
         public string Act(string readLine)
         {
-            if (string.IsNullOrEmpty(readLine) && string.IsNullOrEmpty(player1Name))
+            var message = new StringBuilder();
+            if (IsBeginingOfGame(readLine))
             {
                 return "Welcome to ships game please type first player name.\r\n";
             }
 
-            if(string.IsNullOrEmpty(readLine) && string.IsNullOrEmpty(player1Name))
+            if(IsNoInput(readLine))
             {
-                return "You need to type something.\r\n";
+                message.Append("You need to type something.\r\n");
             }
 
-            var message = string.Empty;
+            if (IsGaveUp(readLine))
+            {
+                SetNextPlayerTurn();
+                gameState = GameState.FinnishUp;
+            }
+
+            
             switch (gameState)
             {
                     case GameState.Setup:
-                        message =Setup(readLine);
+                        message.Append(Setup(readLine));
                         break;
                     case GameState.ShipPlacing:
-                        message= ShipPlacing(readLine.ToUpper());
+                        message.Append(ShipPlacing(readLine.ToUpper()));
                         break;
                     case GameState.FinnishUp:
-                        message = GameWonState();
+                        message.Append(GameWonState());
                         break;
                     case GameState.InProgress:
-                        message = TakeFireComand(readLine.ToUpper());
+                        message.Append(TakeFireComand(readLine.ToUpper()));
                         break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            message += BuildRepresntationCurrentPlayer();
-            return message;
+            switch (gameState)
+            {
+                case GameState.InProgress:
+                    message.Append(BuildRepresentationCurrentPlayer());
+                    break;
+                case GameState.ShipPlacing:
+                    message.Append(DisplayeShipsMap());
+                    break;
+            }
+            message.Append("Reminder after Naming Players you can gave up by pressing <b>Q<b>");
+            
+            return message.ToString();
+        }
+
+        private bool IsGaveUp(string readLine)
+        {
+            return (readLine=="q"|| readLine =="Q")&&(gameState!=GameState.Setup);
+        }
+
+        private bool IsNoInput(string readLine)
+        {
+            return string.IsNullOrEmpty(readLine);
+        }
+
+        private bool IsBeginingOfGame(string readLine)
+        {
+            return string.IsNullOrEmpty(readLine) && string.IsNullOrEmpty(player1Name); 
         }
 
         private string TakeFireComand(string command)
@@ -125,11 +131,11 @@ namespace Ships.GameLoop
 
         private string Setup(string command)
         {
-            var formattableString = $"<b>{command}</b>";
+            var formatTableString = $"<b>{command}</b>";
 
             if (string.IsNullOrEmpty(player1Name))
             {
-                player1Name = formattableString;
+                player1Name = formatTableString;
                 player1Board = new Board(Actor.PlayerOne);
                 return $"Player One name is {player1Name} \r\n" +
                        $"Enter Player Two name:\r\n";
@@ -137,30 +143,48 @@ namespace Ships.GameLoop
             
             if (string.IsNullOrEmpty(player2Name))
             {
-                player2Name = formattableString;
+                player2Name = formatTableString;
                 player2Board = new Board(Actor.PlayerTwo);
-                gameState = GameState.ShipPlacing;
+                
                 CurrentPlayer = Actor.PlayerOne;
+                return $"Player two name is {player2Name} \r\n Send R for Random Ship Placing. Send anything else to enable manual setup";
+            }
+
+            if (command == "R" || command == "r")
+            {
+                gameState = GameState.RandomShips;
+                var nextStepMessage = RandomShipPlacing(string.Empty);
+                return $"RandomSetupEnabled \r\n{nextStepMessage}";
+            }
+            else
+            {
+                gameState = GameState.ShipPlacing;
                 var nextStepMessage = ShipPlacing(string.Empty);
-                return $"Player two name is {player2Name} \r\n {nextStepMessage}\r\n";
-            } 
-            
-            throw new ArgumentException("You shouldn't be here.\r\n");
+                return $"Manual setup enabled \r\n {nextStepMessage}";
+            }
+        }
+
+        private string RandomShipPlacing(string empty)
+        {
+            player2Board.PlaceAllShipsAtRandom();
+            player1Board.PlaceAllShipsAtRandom();
+            gameState = GameState.InProgress;
+            return TakeFireComand(string.Empty);
         }
 
         private string ShipPlacing(string command)
         {
-            StringBuilder messege = new StringBuilder();
+            StringBuilder message = new StringBuilder();
             if (!string.IsNullOrEmpty(command))
             {
-                if (!ValideteShipPlacementCommand(command))
+                if (!ValidateShipPlacementCommand(command))
                 {
-                    messege.Append($"\"{command}\" is not valid input\r\n");
+                    message.Append($"\"{command}\" is not valid input\r\n");
                 }
                 else
                 {
                     var shipsMessage = PlaceShips(command);
-                    messege.Append(shipsMessage);
+                    message.Append(shipsMessage);
                 }
             }
 
@@ -170,12 +194,10 @@ namespace Ships.GameLoop
                 return TakeFireComand(string.Empty);
 
             }
-            else
-            {
-                messege.Append($"Enter {GetCurrentPlayerName()} Ship and its place:\r\n");
-                messege.Append(ShipPlacementHint());
-                return messege.ToString();
-            }
+
+            message.Append($"Enter {GetCurrentPlayerName()} Ship and its place:\r\n");
+            message.Append(ShipPlacementHint());
+            return message.ToString();
         }
 
         private bool IsAllShipPlaced()
@@ -224,7 +246,7 @@ namespace Ships.GameLoop
             return CurrentPlayer == Actor.PlayerOne ? player2Board : player1Board;
         }
 
-        private bool ValideteShipPlacementCommand(string command)
+        private bool ValidateShipPlacementCommand(string command)
         {
             if (command.Length < 4)
             {
@@ -234,15 +256,16 @@ namespace Ships.GameLoop
                    (InputTranslatorHelper.IsDirection(command[1]) && 
                     CellID.IsIdValid(command.Substring(2)));
         }
+
         private string ShipPlacementHint()
         {
             return $"To place ship sent ship ShipSymbol, Direction, and Starting Field \r\n  example BVA9\r\n" +
                    $"Ship Types and size \r\n" +
-                   $"B - {ShipTypes.Battleship} {Settings.GetShipSize(ShipTypes.Battleship)}\r\n" +
-                   $"K - {ShipTypes.Carrier} {Settings.GetShipSize(ShipTypes.Carrier)}\r\n" +
-                   $"C - {ShipTypes.Crusier} {Settings.GetShipSize(ShipTypes.Crusier)}\r\n" +
-                   $"D - {ShipTypes.Destroyer} {Settings.GetShipSize(ShipTypes.Destroyer)}\r\n" +
-                   $"S - {ShipTypes.Submarine} {Settings.GetShipSize(ShipTypes.Submarine)}\r\n"+
+                   $"<b>B</b> - {ShipTypes.Battleship} {Settings.GetShipSize(ShipTypes.Battleship)}\r\n" +
+                   $"<b>K</b> - {ShipTypes.Carrier} {Settings.GetShipSize(ShipTypes.Carrier)}\r\n" +
+                   $"<b>C</b> - {ShipTypes.Crusier} {Settings.GetShipSize(ShipTypes.Crusier)}\r\n" +
+                   $"<b>D</b> - {ShipTypes.Destroyer} {Settings.GetShipSize(ShipTypes.Destroyer)}\r\n" +
+                   $"<b>S</b> - {ShipTypes.Submarine} {Settings.GetShipSize(ShipTypes.Submarine)}\r\n"+
                    $"Directions V - vertical UP => Down   H - Horizontal Left => Right\r\n";
         }
 
@@ -260,14 +283,21 @@ namespace Ships.GameLoop
             }
         }
 
-        private string BuildRepresntationCurrentPlayer()
+        private string BuildRepresentationCurrentPlayer()
         {
             StringBuilder ships = new StringBuilder();
 
+            ships.Append(DisplayeShipsMap());
+            ships.Append($"<b>Target Board</b>: \t\n");
+            ships.Append(DisplayTargetMap(GetInActivePlayerBoard()));
+            return ships.ToString();
+        }
+
+        private string DisplayeShipsMap()
+        {
+            StringBuilder ships = new StringBuilder();
             ships.Append("<b>Your Board</b>: \t\n");
             ships.Append(DisplayShipsMap(GetCurrentPlayerBoard()));
-            ships.Append($"<b>Target Board</b>: \t\n");
-            ships.Append(DisplayTargetMap(GetCurrentPlayerBoard()));
             return ships.ToString();
         }
 
@@ -280,7 +310,5 @@ namespace Ships.GameLoop
         {
             return PlayerBoard.ShipsBoardHtmlMap();
         }
-
-
     }
 }
