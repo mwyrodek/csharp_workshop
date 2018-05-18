@@ -56,8 +56,13 @@
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Core\Ship.cs" />
     <Compile Include="Core\ShipTypes.cs" />
+    <Compile Include="GameLoop\FirePhase.cs" />
+    <Compile Include="GameLoop\GameData.cs" />
     <Compile Include="GameLoop\GameLoop.cs" />
+    <Compile Include="GameLoop\GameSetupPhase.cs" />
     <Compile Include="GameLoop\GameState.cs" />
+    <Compile Include="GameLoop\CleanupPhase.cs" />
+    <Compile Include="GameLoop\ShipPlacingPhase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Command.cs" />
     <Compile Include="UI\InputTranslatorHelper.cs" />
