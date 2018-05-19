@@ -16,7 +16,7 @@ namespace ShipGameTest.GameLoops
             gameData.CurrentPlayer = actor;
             gameData.SetNextPlayerTurn();
             Assert.That(gameData.CurrentPlayer, Is.EqualTo(expectedActor));
-            Assert.That(gameData.IsWaitingForNextPlayer, Is.True);
+            Assert.That(gameData.RequirersChangePlayerScreen, Is.True);
         }
 
         [TestCase(Actor.PlayerTwo, "P2Name")]

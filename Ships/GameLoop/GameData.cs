@@ -11,13 +11,13 @@ namespace Ships.GameLoop
         public Board Player1Board;
         public Board Player2Board;
         public Actor CurrentPlayer;
-        public bool IsWaitingForNextPlayer = false;
+        public bool RequirersChangePlayerScreen = false;
         public string StoredCommand = string.Empty;
         public string StoredMessage = string.Empty;
 
         public void SetNextPlayerTurn()
         {
-            IsWaitingForNextPlayer = true;
+            RequirersChangePlayerScreen = true;
             if (CurrentPlayer == Actor.PlayerOne)
             {
                 CurrentPlayer = Actor.PlayerTwo;

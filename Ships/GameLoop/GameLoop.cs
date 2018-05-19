@@ -49,7 +49,7 @@ namespace Ships.GameLoop
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (!gameData.IsWaitingForNextPlayer)
+            if (!gameData.RequirersChangePlayerScreen)
             {
                 switch (gameData.GameState)
                 {
@@ -67,6 +67,10 @@ namespace Ships.GameLoop
             return message.ToString();
         }
 
+        public bool RequirersChangePlayerScreen()
+        {
+            return gameData.RequirersChangePlayerScreen;
+        }
         private bool IsGaveUp(string readLine)
         {
             return (readLine == "q" || readLine == "Q") && (gameData.GameState != GameState.Setup);
