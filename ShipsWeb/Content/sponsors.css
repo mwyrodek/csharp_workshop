@@ -1,0 +1,17 @@
+﻿.sponsors-tab {
+    background: #2a363b;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 30vh;
+    transform: translateX(-30vh);
+    display: flex;
+}
+
+.sponsors-tab--content {
+    width: calc(30vh - 30px);
+}
+
+.sponsors-tab--hook {
+    width: 30px;
+}

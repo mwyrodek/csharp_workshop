@@ -24,13 +24,43 @@ textarea {
 }
 
 body {
-    background: #88D9E6;
+    background: linear-gradient(to bottom, #99b898 0%,#fecea8 54%,#fe847c 69%,#e84a5f 76%,#2a363b 86%);
+    position: relative;
+    min-height: 100vh;
 }
 
 .ships {
     border: 1px solid #fff;
+    padding: 1rem;    
+    background: rgba(255,255,255,0.2);
+    min-height: 504px;
+
 }
 
 .board {
+    margin-bottom: 1rem
+}
 
+.ship-silhoulette {
+    background: url(battleship.png);
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    height: 364px;
+    width: 800px;
+    background-size: auto;
+    pointer-events: none;
+}
+
+.blur-wrapper {
+    position: relative;
+}
+
+.blur {
+    filter: blur(4px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }

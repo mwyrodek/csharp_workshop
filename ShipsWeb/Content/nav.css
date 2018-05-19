@@ -1,4 +1,8 @@
 ﻿.navbar {
-    background: #469DEA;
+    background: #2a363b;
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav > li a {
     color: #fff;
 }
