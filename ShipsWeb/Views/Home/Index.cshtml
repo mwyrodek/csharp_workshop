@@ -1,4 +1,4 @@
-﻿﻿@{
+﻿@{
      ViewBag.Title = "Home Page";
     
  }
@@ -6,24 +6,15 @@
 
 
 <div class="ships">
-    <table width="800px" border="1">
-        <th border="1">
-            <h1 class="title">Ships</h1>
-        </th>
-        <tbody>
-        <tr>
-            <td>
-                <span >@ViewBag.Message</span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @using (Html.BeginForm()){    
-                    <p> Action: @Html.TextBox("command") <input type="submit" value="SendCommand" /></p> 
-                } 
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
+    <div class="board">
+        @Html.Raw(@ViewBag.Message)
+    </div>
+    <div class="console">
+        @using (Html.BeginForm())
+        {
+            <p> Action: @Html.TextBox("command") <input type="submit" value="SendCommand"/></p>
+        }
+    </div>
 
 </div>
