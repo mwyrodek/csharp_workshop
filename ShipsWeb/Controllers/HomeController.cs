@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Ships.GameLoop;
 
 namespace ShipsWeb.Controllers
@@ -23,7 +19,6 @@ namespace ShipsWeb.Controllers
                 game = new GameLoop();
             }
 
-            // ViewBag.Message = Server.HtmlEncode(game.Act(command)).Replace("\r\n", "<br />").Replace("&lt;b&gt;", "<b>").Replace("&lt;/b&gt;", "</b>");
             ViewBag.Message = game.Act(command).Replace("\r\n", "<br />");
             TempData["Game"] = game;
                 ModelState.Clear();
@@ -34,13 +29,6 @@ namespace ShipsWeb.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }
