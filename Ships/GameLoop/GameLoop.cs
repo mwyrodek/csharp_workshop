@@ -185,9 +185,7 @@ namespace Ships.GameLoop
         
         private bool IsAllEnemyShipSunk()
         {
-            
-            //todo candidate for bug change it to current player
-            return GetInActivePlayerBoard().IsAllShipSunk();
+            return GetCurrentPlayerBoard().IsAllShipSunk();
         }
 
         private string PlaceShips(string command)
