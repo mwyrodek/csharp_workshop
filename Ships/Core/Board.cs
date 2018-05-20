@@ -124,7 +124,7 @@ namespace ShipsGame.Core
                         {
                             var ship = PlayerShips.FirstOrDefault(c => c.ShipPosition.Any(id => id.Id == boardCell.Id));
                             var translateShipTypeToSymbol = InputTranslatorHelper.TranslateShipTypeToSymbol(ship.shipType);
-                            map.Append($"<td>{translateShipTypeToSymbol}</td>");
+                            map.Append($"<td class='hit'>{translateShipTypeToSymbol}</td>");
                         }
                         else
                         {

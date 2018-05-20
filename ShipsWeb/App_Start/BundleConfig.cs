@@ -26,6 +26,9 @@ namespace ShipsWeb
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/nav.css",
+                      "~/Content/inputs.css",
+                      "~/Content/switchPlayers.css",
+                      "~/Content/board.css",
                       "~/Content/sponsors.css",
                       "~/Content/site.css"));
         }

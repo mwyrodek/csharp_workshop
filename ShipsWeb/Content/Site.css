@@ -27,14 +27,14 @@ body {
     background: linear-gradient(to bottom, #99b898 0%,#fecea8 54%,#fe847c 69%,#e84a5f 76%,#2a363b 86%);
     position: relative;
     min-height: 100vh;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .ships {
     border: 1px solid #fff;
     padding: 1rem;    
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.4);
     min-height: 504px;
-
 }
 
 .board {
@@ -52,7 +52,7 @@ body {
     pointer-events: none;
 }
 
-.blur-wrapper {
+.ships-wrapper {
     position: relative;
 }
 
@@ -63,4 +63,29 @@ body {
     left: 0;
     height: 100%;
     width: 100%;
+}
+
+.heading {
+    transform: translateY(-50px);
+    transition: transform 0.2s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.2s ease;
+    font-family: 'Kaushan Script', cursive;
+    color: #fff;
+    opacity: 0;
+    font-size: 3.5rem;
+    margin-bottom: 1.85rem;
+    animation: headingAnim cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s;
+    animation-iteration-count: 1;
+    transform-origin: 50% 50%;
+}
+
+@keyframes headingAnim {
+    0% {
+        opacity: 0;
+        transform: translate(0, -50px);
+    }
+
+    100% {
+        opacity: 1;
+         transform: translate(0, 0);
+    }
 }

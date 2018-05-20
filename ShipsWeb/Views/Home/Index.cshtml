@@ -4,11 +4,13 @@
  }
 <style type="text/css">.Terminal { height: 600px; }</style>
 
+<script>
+    var switchPlayers = @ViewBag.SwitchPlayer
+</script>
 
 <!--<div class="ship-silhoulette"></div>-->
 
-<section class="blur-wrapper">
-    <div class="blur"></div>
+<section class="ships-wrapper">
     <div class="ships">
         <div class="board">
             @Html.Raw(@ViewBag.Message)
@@ -16,15 +18,19 @@
         <div class="console">
             @using (Html.BeginForm())
             {
-                <p> Action: @Html.TextBox("command") <input type="submit" value="SendCommand"/></p>
+                <p> Action: @Html.TextBox("command", null, new { @class = "console-input" })  <input type="submit" value="SendCommand" class="console--send" /></p>
             }
         </div>
 
     </div>
 </section>
 
-<aside class="sponsors-tab">
-    <div class="sponsor"></div>
-    <div class="sponsor"></div>
-    <div class="sponsor"></div>
-</aside>
+<div class="switch-players">
+    <div class="switch-players--modal">
+        <h2 class="switch-players--header">Next turn</h2>
+        
+        <span class="switch-players--message">some test message which is a rather long message for test purposes, obviously I guess probably</span>
+
+        <button class="switch-players--button">I'm ready!</button>
+    </div>
+</div>

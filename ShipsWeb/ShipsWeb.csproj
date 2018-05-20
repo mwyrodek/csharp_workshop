@@ -150,10 +150,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\battleship.png" />
+    <Content Include="Content\board.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\inputs.css" />
     <Content Include="Content\nav.css" />
     <Content Include="Content\sponsors.css" />
+    <Content Include="Content\switchPlayers.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -175,6 +178,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\script.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Open+Sans:300" rel="stylesheet">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -35,8 +36,24 @@
         </footer>
     </div>
 
+    <aside class="sponsors-tab">
+        <div class="sponsors-tab--hook">
+            <div class="ads-label">ADS</div>
+        </div>
+        <div class="sponsors-tab--content">
+            <div class="sponsor"></div>
+            <div class="sponsor"></div>
+            <div class="sponsor"></div>
+        </div>
+    </aside>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
+<script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+<script src="~/Scripts/script.js" type="text/javascript"></script>
 </html>

@@ -25,6 +25,7 @@ namespace ShipsWeb.Controllers
 
             // ViewBag.Message = Server.HtmlEncode(game.Act(command)).Replace("\r\n", "<br />").Replace("&lt;b&gt;", "<b>").Replace("&lt;/b&gt;", "</b>");
             ViewBag.Message = game.Act(command).Replace("\r\n", "<br />");
+            ViewBag.SwitchPlayer = game.RequiresChangePlayerScreen();
             TempData["Game"] = game;
                 ModelState.Clear();
 

@@ -1,0 +1,23 @@
+﻿.board td, .board th {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.board table {
+    margin: 0 auto;
+}
+
+.board table tr:nth-child(even) {
+    background: rgba(255,255,255,0.1);
+}
+
+.board table tr th:nth-child(even),
+.board table tr td:nth-child(even) {
+    background: rgba(255,255,255,0.1);
+}
+
+.hit {
+    background: rgba(232, 74, 95, 0.2)!important;
+}

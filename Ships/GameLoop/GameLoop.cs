@@ -49,8 +49,7 @@ namespace Ships.GameLoop
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (!gameData.RequirersChangePlayerScreen)
-            {
+
                 switch (gameData.GameState)
                 {
                     case GameState.InProgress:
@@ -60,16 +59,20 @@ namespace Ships.GameLoop
                         message.Append(DisplayeShipsMap());
                         break;
                 }
-            }
+            
 
             message.Append("Reminder after Naming Players you can gave up by pressing <b>Q<b>");
 
             return message.ToString();
         }
 
-        public bool RequirersChangePlayerScreen()
+        public int RequiresChangePlayerScreen()
         {
-            return gameData.RequirersChangePlayerScreen;
+            if (gameData.RequirersChangePlayerScreen)
+            {
+                return 1;
+            }
+            return 0;
         }
         private bool IsGaveUp(string readLine)
         {

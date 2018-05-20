@@ -1,17 +1,29 @@
 ﻿.sponsors-tab {
     background: #2a363b;
     position: fixed;
-    left: 0;
+    right: 0;
     top: 0;
-    width: 30vh;
-    transform: translateX(-30vh);
+    width: calc(30vw + 30px);
+    height: 100vh;
+    transform: translateX(30vw);
     display: flex;
+    transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.sponsors-tab.opened {
+    transform: translateX(0);
 }
 
 .sponsors-tab--content {
-    width: calc(30vh - 30px);
+    width: 30vw;
 }
 
 .sponsors-tab--hook {
     width: 30px;
+    padding-top: 6rem;
+    color: white;
+}
+
+.ads-label {
+    transform: rotateZ(-90deg);
 }
