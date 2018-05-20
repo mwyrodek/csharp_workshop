@@ -29,3 +29,5 @@ $(document).ready(() => {
     sponsorTabControl();
     displaySwitchModal();
 });
+
+//DISPLAY NONE NA TECIE
