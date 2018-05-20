@@ -59,7 +59,7 @@ namespace ShipsGame.Core
 
             if (takenCells.Count > 0)
             {                  
-                var FailureMessage = $"Ship can't be placed on {string.Join(", ",planedShipPosition.Select(cell=>cell.Id).ToArray())} becase {string.Join(" ,",takenCells.ToArray())} belongs to diffrent ship \n";
+                var FailureMessage = $"Ship can't be placed on {string.Join(", ",planedShipPosition.Select(cell=>cell.Id).ToArray())} because {string.Join(" ,",takenCells.ToArray())} belongs to diffrent ship \n";
                 return new ActionResult(ActionStatus.Failure, FailureMessage, true);
             }
            
@@ -74,14 +74,14 @@ namespace ShipsGame.Core
             //marks cells as taken
             IsPlaced = true;
             
-            return new ActionResult(ActionStatus.Succes, string.Empty, false);
+            return new ActionResult(ActionStatus.Succes, $"Ship placed successfully {string.Join(", ", planedShipPosition.Select(cell => cell.Id).ToArray())}" , false);
         }
 
         public ActionResult FireAtShip(CellID target)
         {
             if (ShipPosition.All(c => c.Id != target.Id))
             {
-                return new ActionResult(ActionStatus.Failure, "Illegal operation - misses shoudn't come here\n", false);
+                return new ActionResult(ActionStatus.Failure, "Illegal operation - misses shouldn't come here\n", false);
             }
             var messege = String.Empty;
             ShipPosition.First(c=>c.Id == target.Id).MarkAsFired();
@@ -108,7 +108,7 @@ namespace ShipsGame.Core
             switch (direction)
             {
                     case Direction.Vertical:
-                        return GetPlanedShipPositionToDownword(startingPosition);
+                        return GetPlanedShipPositionToDownward(startingPosition);
                     case Direction.Horizontal:
                         return GetPlanedShipPositionToRight(startingPosition);
                     default:
@@ -136,7 +136,7 @@ namespace ShipsGame.Core
             return cellIds;
         }
 
-        private List<CellID> GetPlanedShipPositionToDownword(CellID startingPosition)
+        private List<CellID> GetPlanedShipPositionToDownward(CellID startingPosition)
         {
             var cellIds = new List<CellID>();
             cellIds.Add(startingPosition);
