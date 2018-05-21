@@ -8,6 +8,7 @@
     transform: translateX(30vw);
     display: flex;
     transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+    margin-top: 50px;
 }
 
 .sponsors-tab.opened {
@@ -26,4 +27,10 @@
 
 .ads-label {
     transform: rotateZ(-90deg);
+}
+
+.ads-img {
+    width: calc(28vw);
+    height: calc(15vh);
+    padding: 5px
 }
